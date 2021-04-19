@@ -1,6 +1,6 @@
 <div class="col-md-3">
       <h2>User info</h2>
-      <p><%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %></p>
+      <p><%= attachment_image_tag user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %></p>
    <table class="table">
 	<tbody>
 	 <tr>
@@ -13,29 +13,47 @@
 	 </tr>
 	 </tbody>
 	</table>
-	  <%= link_to " ", edit_user_path(@user), class: "btn btn-outline-secondary btn-block fas fa-user-cog" %>
+	  <%= link_to " ", edit_user_path(user), class: "btn btn-outline-secondary btn-block fas fa-user-cog" %>
 	 
 
 
 <div class="row">
    
       <h2 class="mt-3">New book</h2></br>
-     
+      
+     <% if @book.errors.any? %>
+  <h3  class="red">
     
-    <%= form_with model: book, url:'/books', local:true do |f| %>
-   
-    <tr>Title</tr> </br>
-    
-    <tr><%= f.text_field :title %></tr> </br>
-   
-   
-    <tr>Opinion</tr> </br>
-    
-    <tr><%= f.text_area :body %></tr></br>
+    <%= @book.errors.count %>errors prohibited this obj from being saved:
+  </h3>
   
-    <%= f.submit 'Create Book' %>
-    <% end %>
+  <% @book.errors.full_messages.each do |message| %>
+  
+    <li><%= message %></li>
+    
+  <% end %>
+<% end %>
     
     
+    
+  
+    <%= form_with model: book, local:true do |f| %>
+  	
+  	
+  <div class="form-group">
+    <label for="book_title">Title</label>
+    <%= f.text_field :title %>
+  </div>
+  <div class="form-group">
+    <label for="book_opinion">Opinion</label>
+    <%= f.text_field :body %>
+  </div>
+  <div class="form-group">
+    <input type="submit" name="commit" value="Create Book" class="btn btn-success" data-disable-with="Create Book">
+</div>
+  <% end %>
+  
     </div>
     </div>
+    
+   
